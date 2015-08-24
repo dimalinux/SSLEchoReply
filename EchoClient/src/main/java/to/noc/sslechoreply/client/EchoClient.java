@@ -1,5 +1,6 @@
 package to.noc.sslechoreply.client;
 
+import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.*;
@@ -19,6 +20,13 @@ public class EchoClient {
 
             SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
             SSLSocket socket = (SSLSocket) socketFactory.createSocket(hostname, port);
+
+            // Hostname verification is not done by default in Java with raw SSL connections.
+            // The next 3 lines enable it.
+            SSLParameters sslParams = new SSLParameters();
+            sslParams.setEndpointIdentificationAlgorithm("HTTPS");
+            socket.setSSLParameters(sslParams);
+
             socket.setTcpNoDelay(true);
 
             final BufferedReader sockReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
