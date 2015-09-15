@@ -1,15 +1,15 @@
 package to.noc.sslechoreply.server;
 
-import javax.net.ssl.SSLSocket;
 import java.io.*;
+import java.net.Socket;
 
 public class ClientComm implements Runnable {
 
-    final SSLSocket clientCommSocket;
+    final Socket clientCommSocket;
     final PrintWriter writer;
     final BufferedReader reader;
 
-    public ClientComm(SSLSocket clientCommSocket) throws IOException {
+    public ClientComm(Socket clientCommSocket) throws IOException {
         this.clientCommSocket = clientCommSocket;
         this.writer = new PrintWriter(new OutputStreamWriter(clientCommSocket.getOutputStream()), true);
         this.reader = new BufferedReader(new InputStreamReader(clientCommSocket.getInputStream()));
