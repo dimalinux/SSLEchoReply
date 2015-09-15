@@ -35,7 +35,7 @@ public class EchoServer {
             while (true) {
                 final Socket clientCommSocket = serverSocket.accept();
                 clientCommSocket.setTcpNoDelay(true);
-                System.out.println("New client connection from: " + clientCommSocket.getInetAddress());
+                System.out.println("New client connection from: " + clientCommSocket.getInetAddress().getHostAddress());
                 executor.execute(new ClientComm(clientCommSocket));
             }
         } catch(Exception e) {

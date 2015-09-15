@@ -6,18 +6,20 @@ import java.net.Socket;
 public class ClientComm implements Runnable {
 
     final Socket clientCommSocket;
+    final String clientIP;
     final PrintWriter writer;
     final BufferedReader reader;
 
     public ClientComm(Socket clientCommSocket) throws IOException {
         this.clientCommSocket = clientCommSocket;
+        clientIP = clientCommSocket.getInetAddress().getHostAddress();
         this.writer = new PrintWriter(new OutputStreamWriter(clientCommSocket.getOutputStream()), true);
         this.reader = new BufferedReader(new InputStreamReader(clientCommSocket.getInputStream()));
     }
 
     @Override
     public void run() {
-        writer.println("Connected to echo server");
+        writer.println("You (" + clientIP + ") have connected to the echo server");
         writer.flush();
         String line;
         try {
@@ -35,5 +37,6 @@ public class ClientComm implements Runnable {
             clientCommSocket.close();
         } catch (IOException e) {
         }
+        System.out.println("Connection from client IP '" + clientIP + "' is closed");
     }
 }
